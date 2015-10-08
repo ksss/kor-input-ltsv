@@ -1,7 +1,7 @@
 kor-input-ltsv
 ===
 
-[![Build [![Build Status](https://travis-ci.org/ksss/kor-input-ltsv.svg?branch=master)](https://travis-ci.org/ksss/kor-input-ltsv)
+[![Build Status](https://travis-ci.org/ksss/kor-input-ltsv.svg?branch=master)](https://travis-ci.org/ksss/kor-input-ltsv)
 
 LTSV(Labeled Tab-Separated Values) input plugin for kor
 
