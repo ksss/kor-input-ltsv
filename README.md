@@ -3,7 +3,7 @@ kor-input-ltsv
 
 [![Build Status](https://travis-ci.org/ksss/kor-input-ltsv.svg?branch=master)](https://travis-ci.org/ksss/kor-input-ltsv)
 
-LTSV(Labeled Tab-Separated Values) input plugin for kor
+LTSV(Labeled Tab-Separated Values) input plugin for [kor](https://github.com/ksss/kor)
 
 ## Usage
 
@@ -44,6 +44,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/ksss/k
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
-## Ref
+## Refs
 
-http://ltsv.org/
+- https://github.com/ksss/kor
+- http://ltsv.org/
