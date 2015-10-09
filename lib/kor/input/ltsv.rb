@@ -27,7 +27,7 @@ module Kor
       end
 
       def parse(opt)
-        opt.on("--keys=KEYS", "define keys preset (e.g. foo,bar,baz) (default auto)") do |arg|
+        opt.on("--key=KEY", "define keys preset (e.g. foo,bar,baz) (default auto)") do |arg|
           @prekeys = arg
         end
       end

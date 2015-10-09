@@ -17,11 +17,11 @@ CSV
       t.error("expect #{expect} got #{actual}")
     end
 
-    actual = `echo '#{ltsv.chomp}' | kor ltsv --keys=foo csv`
+    actual = `echo '#{ltsv.chomp}' | kor ltsv --key=bar,foo csv`
     expect = <<-CSV
-foo
-100
-600
+bar,foo
+200,100
+500,600
 CSV
     if actual != expect
       t.error("expect #{expect} got #{actual}")

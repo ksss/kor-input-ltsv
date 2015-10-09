@@ -17,6 +17,12 @@ $ kor ltsv markdown < table.ltsv
 | --- | --- | --- |
 | 100 | 200 | 300 |
 | 400 | 500 | 600 |
+
+$ kor ltsv --key=bar markdown < table.ltsv
+| bar |
+| --- |
+| 200 |
+| 500 |
 ```
 
 ## Installation
