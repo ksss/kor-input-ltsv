@@ -11,7 +11,6 @@ module Kor
         @keys = []
         @prekeys = nil
         @ltsvs = []
-        @guess = true
         @guess_time = DEFAULT_GUESS_TIME
         @count = 0
         @fiber = Fiber.new do
