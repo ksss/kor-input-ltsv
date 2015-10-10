@@ -1,22 +1,19 @@
 require 'kor'
+require 'ltsv'
 
 module Kor
   module Input
     class Ltsv
-      class LTSV < Hash
-        DELIM = "\t".freeze
-        SPLIT = ":".freeze
-
-        def self.parse(line)
-          LTSV[line.split(DELIM).map{ |i| i.split(SPLIT, 2) }]
-        end
-      end
+      DEFAULT_GUESS_TIME = 5
 
       def initialize(io)
         @io = io
         @keys = []
         @prekeys = nil
         @ltsvs = []
+        @guess = true
+        @guess_time = DEFAULT_GUESS_TIME
+        @count = 0
         @fiber = Fiber.new do
           @ltsvs.each do |ltsv|
             Fiber.yield @keys.map{ |k| ltsv[k] }
@@ -30,6 +27,9 @@ module Kor
         opt.on("--key=KEY", "define keys preset (e.g. foo,bar,baz) (default auto)") do |arg|
           @prekeys = arg
         end
+        opt.on("--guess-time=NUM", "load lines this time for guess. no guess if under 0 (default #{DEFAULT_GUESS_TIME})") do |arg|
+          @guess_time = arg.to_i
+        end
       end
 
       def head
@@ -38,7 +38,10 @@ module Kor
         else
           while line = @io.gets
             line.strip!
-            @ltsvs << LTSV.parse(line)
+            @ltsvs << parse_line(line)
+            if 0 < @guess_time && @guess_time <= @ltsvs.length
+              break
+            end
           end
           @keys = @ltsvs.map { |ltsv| ltsv.keys }
           @keys.flatten!.uniq!
@@ -50,18 +53,34 @@ module Kor
         if @prekeys
           if line = @io.gets
             line.strip!
-            ltsv = LTSV.parse(line)
+            ltsv = parse_line(line)
             @keys.map { |k| ltsv[k] }
           else
             nil
           end
-        else
-          begin
-            @fiber.resume
-          rescue FiberError
-            nil
+        elsif 0 < @guess_time
+          if @count < @guess_time
+            @count += 1
+            return resume
           end
+          if line = @io.gets
+            line.strip!
+            ltsv = parse_line(line)
+            @keys.map { |k| ltsv[k] }
+          end
+        else
+          resume
         end
+      end
+
+      def parse_line(line)
+        LTSV.parse(line, symbolize_keys: false).first
+      end
+
+      def resume
+        @fiber.resume
+      rescue FiberError
+        nil
       end
     end
 
